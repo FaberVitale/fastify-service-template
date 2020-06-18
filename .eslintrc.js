@@ -10,4 +10,12 @@ module.exports = {
   rules: {
     "prettier/prettier": 2,
   },
+  "overrides": [
+    {
+      "files": ["*.js", "*.cjs"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": 0
+      }
+    }
+]
 };

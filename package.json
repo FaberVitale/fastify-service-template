@@ -11,8 +11,11 @@
     "prebuild": "rimraf ./dist",
     "build": "tsc -p ./tsconfig.build.json",
     "build:dev": "tsc",
+    "checkversions": "node ./scripts/checkversions.cjs",
     "start:dev": "cross-env NODE_ENV=development node ./dist/server.js",
+    "predev": "npm run checkversions",
     "dev": "nodemon --exec run-s build:dev start:dev",
+    "prestart": "npm run checkversions",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
     "test": "tsc -p ./tsconfig.test.json"
   },
@@ -40,12 +43,14 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "check-node-version": "^4.0.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "morgan": "^1.10.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "tiny-invariant": "^1.1.0"
   }
 }
