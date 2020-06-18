@@ -1,20 +1,29 @@
 import { createServer, Server } from "http";
 import app from "./app";
+import { once } from "lodash";
 import { port } from "./config";
 
-function createGracefulshutdown(server: Server) {
-  return function gracefulShutdown() {
+function createGracefulshutdown(server: Server, timeoutMs = 5_000) {
+  function gracefulShutdown() {
     console.log("graceful shutdown started");
 
-    server.close(() => {
-      process.exit(0);
+    server.close((err) => {
+      if (err) {
+        console.error(err);
+      }
+
+      setImmediate(() => {
+        process.exit(0);
+      });
     });
 
     // @see https://nodejs.org/api/http.html#http_server_keepalivetimeout
     setTimeout(() => {
       process.exit(0);
-    }, 6_000);
-  };
+    }, timeoutMs);
+  }
+
+  return once(gracefulShutdown);
 }
 
 const server = createServer(app).listen(port, () => {

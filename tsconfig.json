@@ -9,7 +9,8 @@
     "incremental": true,
     "resolveJsonModule": true,
     "outDir": "dist",
-    "baseUrl": "./src/"
+    "baseUrl": "./src/",
+    "strict": true
   },
   "exclude": [
     "node_modules",
