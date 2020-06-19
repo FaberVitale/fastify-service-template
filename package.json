@@ -13,8 +13,11 @@
     "build:dev": "tsc",
     "checkversions": "node ./scripts/checkversions.cjs",
     "start:dev": "cross-env NODE_ENV=development node ./dist/server.js",
+    "start:dev:debug": "cross-env NODE_ENV=development node --inspect ./dist/server.js",
     "predev": "npm run checkversions",
     "dev": "nodemon --exec run-s build:dev start:dev",
+    "predev:debug": "npm run checkversions",
+    "dev:debug": "nodemon --exec run-s build:dev start:dev:debug",
     "prestart": "npm run checkversions",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
     "test": "tsc -p ./tsconfig.test.json"

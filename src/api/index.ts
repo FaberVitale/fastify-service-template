@@ -9,7 +9,7 @@ export default function api(): ReturnType<typeof Router> {
   apiRouter.use(cors());
   apiRouter.use(compression());
 
-  apiRouter.get("/now", (req: Request, res: Response) => {
+  apiRouter.get("/now", function handleNow(req: Request, res: Response) {
     res.json({
       now: new Date().toISOString(),
     });
