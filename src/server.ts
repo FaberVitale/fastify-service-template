@@ -1,6 +1,6 @@
 import app from "./app";
 import { once } from "lodash";
-import { port } from "./config";
+import { port, host } from "./config";
 import { FastifyInstance } from "fastify";
 
 function createGracefulshutdown(server: FastifyInstance, timeoutMs = 5_000) {
@@ -22,11 +22,12 @@ function createGracefulshutdown(server: FastifyInstance, timeoutMs = 5_000) {
   return once(gracefulShutdown);
 }
 
-app.listen(port, (err) => {
+app.listen(port, host, (err) => {
   if (err) {
     throw err;
   }
-  console.log(`Server started at ${port}`);
+
+  console.log(`Server started at ${host}:${port}`);
 });
 
 const gracefulShutdown = createGracefulshutdown(app);

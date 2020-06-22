@@ -1,0 +1,21 @@
+# Docs: https://docs.docker.com/engine/reference/builder/#dockerignore-file
+dist/
+node_modules
+coverage
+
+# GIT
+.git
+.gitignore
+.gitattributes
+
+# Editor config files
+.vscode
+.idea
+.editorconfig
+
+# Log files
+*.log
+
+# Docker files: acquired at the start of the build process by the daemon
+Dockerfile
+.dockerignore
