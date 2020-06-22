@@ -17,6 +17,12 @@ Expressjs + typescript + node 14 example server.
 
 - `npm run test`: runs tests.
 
+## Docker
+
+- build image:`docker build --tag timestamp-service:<tag> .`
+
+- run dockerize app: `docker run --rm -p 5000:5000 timestamp-service:<tag>`
+
 ## Requirements
 
 ```
