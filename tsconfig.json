@@ -9,7 +9,7 @@
     "incremental": true,
     "resolveJsonModule": true,
     "outDir": "dist",
-    "baseUrl": "./src/",
+    "baseUrl": ".",
     "strict": true
   },
   "exclude": [

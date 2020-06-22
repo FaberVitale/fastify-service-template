@@ -1,17 +1,13 @@
-import { createServer, Server } from "http";
 import app from "./app";
 import { once } from "lodash";
 import { port } from "./config";
+import { FastifyInstance } from "fastify";
 
-function createGracefulshutdown(server: Server, timeoutMs = 5_000) {
+function createGracefulshutdown(server: FastifyInstance, timeoutMs = 5_000) {
   function gracefulShutdown() {
     console.log("graceful shutdown started");
 
-    server.close((err) => {
-      if (err) {
-        console.error(err);
-      }
-
+    server.close(() => {
       setImmediate(() => {
         process.exit(0);
       });
@@ -26,11 +22,18 @@ function createGracefulshutdown(server: Server, timeoutMs = 5_000) {
   return once(gracefulShutdown);
 }
 
-const server = createServer(app).listen(port, () => {
+app.listen(port, (err) => {
+  if (err) {
+    throw err;
+  }
   console.log(`Server started at ${port}`);
 });
 
-const gracefulShutdown = createGracefulshutdown(server);
+const gracefulShutdown = createGracefulshutdown(app);
 
 process.on("SIGINT", gracefulShutdown);
 process.on("SIGTERM", gracefulShutdown);
+process.on("unhandledRejection", function unhandledRejection(err) {
+  console.error("unhandledRejection\n", err);
+  process.exit(1);
+});
