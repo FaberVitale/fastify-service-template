@@ -1,6 +1,6 @@
-import * as fastify from "fastify";
-import * as morgan from "morgan";
-import * as ajvErrors from "ajv-errors";
+import fastify from "fastify";
+import morgan from "morgan";
+import ajvErrors from "ajv-errors";
 import api from "../api";
 
 const app = fastify({
