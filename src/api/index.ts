@@ -19,7 +19,10 @@ export default function api(
     }
   });
 
-  fastify.register(timestamp, { prefix: "/now", swagger: false });
+  fastify.register(timestamp, {
+    prefix: "/now",
+    swagger: process.env.NODE_ENV !== "production",
+  });
 
   next();
 }
