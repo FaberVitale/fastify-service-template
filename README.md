@@ -2,7 +2,7 @@
 
 ## Description
 
-Proof of concept of a microservice in [node 14](https://nodejs.org/en/) using the following stack:
+Proof of concept of a microservice that runs in [node 14](https://nodejs.org/en/) using the following stack:
 
 - [typescript](https://www.typescriptlang.org/)
 
@@ -42,3 +42,7 @@ Proof of concept of a microservice in [node 14](https://nodejs.org/en/) using th
 "node": "^14.0.0",
 "npm": "^6.14.4"
 ```
+
+## License
+
+[MIT](./LICENSE)

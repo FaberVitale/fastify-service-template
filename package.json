@@ -26,7 +26,8 @@
   "keywords": [
     "node",
     "api",
-    "fastify"
+    "fastify",
+    "docker"
   ],
   "author": "Fabrizio A. Vitale",
   "license": "MIT",
