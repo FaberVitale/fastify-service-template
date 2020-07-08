@@ -14,6 +14,8 @@ Proof of concept of a microservice that runs in [node 14](https://nodejs.org/en/
 
 - [docker](https://www.docker.com/)
 
+- [eslint](https://eslint.org/)
+
 ## Scripts
 
 - `npm run dev`: starts server in dev mode that restars on ./src changes:
