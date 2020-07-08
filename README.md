@@ -2,18 +2,31 @@
 
 ## Description
 
-Expressjs + typescript + node 14 example server.
+Proof of concept of a microservice in [node 14](https://nodejs.org/en/) using the following stack:
+
+- [typescript](https://www.typescriptlang.org/)
+
+- [fastify](https://www.fastify.io/)
+
+- [swagger](https://swagger.io/)
+
+- [jest](https://jestjs.io/)
+
+- [docker](https://www.docker.com/)
 
 ## Scripts
 
 - `npm run dev`: starts server in dev mode that restars on ./src changes:
-  server should be live in `localhost:5000`, try `http://localhost:5000/api/now`.
+
+  - server is be `localhost:5000`, try `http://localhost:5000/api/now`.
+
+  - docs are available on http://localhost:5000/api/now/documentation
 
 - `npm run build`: build for production.
 
-- `npm run start`: starts server in dev mode.
+- `npm run start`:starts server in production mode.
 
-- `npm dev:debug`: starts server in dev mode with debugger attached.
+- `npm dev:debug`: starts server in dev mode with debugger attached, try `chrome://inspect/#devices` in chrome.
 
 - `npm run test`: runs tests.
 
