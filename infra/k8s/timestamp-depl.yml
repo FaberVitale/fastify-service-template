@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timestamp-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timestamp
+  template:
+    metadata:
+      labels:
+        app: timestamp
+    spec:
+      containers:
+        - name: timestamp
+          image: fabervitale/timestamp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timestamp-srv
+spec:
+  selector:
+    app: timestamp
+  ports:
+    - name: timestamp
+      protocol: TCP
+      port: 5000
+      targetPort: 5000

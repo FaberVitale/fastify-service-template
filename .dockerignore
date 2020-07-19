@@ -1,7 +1,12 @@
 # Docs: https://docs.docker.com/engine/reference/builder/#dockerignore-file
+.vscode/
 dist/
 node_modules
 coverage
+
+infra/
+
+skaffold.yml
 
 # GIT
 .git
