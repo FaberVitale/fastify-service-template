@@ -1,18 +1,18 @@
 import timestamp from "../";
 import { camelCase } from "lodash";
-import fastify, { HTTPInjectOptions } from "fastify";
+import fastify from "fastify";
+import { PromiseType } from "utility-types";
+import { InjectOptions as HTTPInjectOptions } from "light-my-request";
 
-function setupServer() {
+async function setupServer() {
   const app = fastify();
 
-  app.register(timestamp, { prefix: "/now", swagger: false });
+  await app.register(timestamp, { prefix: "/now", swagger: false });
 
   return app;
 }
 
 describe("timestamp service", () => {
-  const app = setupServer();
-
   const expectSuccess = {
     statusCode: 200,
     headers: {
@@ -24,6 +24,15 @@ describe("timestamp service", () => {
   const expectInvalidArg = {
     statusCode: 400,
   };
+
+  let app: PromiseType<ReturnType<typeof setupServer>>;
+
+  beforeAll((done) => {
+    setupServer().then((setupApp) => {
+      app = setupApp;
+      done();
+    }, done);
+  });
 
   it.each([
     [{ method: "GET", url: "/now", query: {} }, expectSuccess],
@@ -67,18 +76,33 @@ describe("timestamp service", () => {
   ] as [HTTPInjectOptions, Record<string, unknown>][])(
     "%# - %j request",
     async (req: HTTPInjectOptions, expected) => {
-      const res = await app.inject(req);
+      try {
+        const res = await app.inject(req);
 
-      expect(res.statusCode).toBe(expected.statusCode);
+        expect(res.statusCode).toBe(expected.statusCode);
 
-      if (expected.headers) {
-        const camelCaseHeaders = Object.fromEntries(
-          Object.entries(res.headers).map(([key, val]) => [camelCase(key), val])
+        if (expected.headers) {
+          const camelCaseHeaders = Object.fromEntries(
+            Object.entries(res.headers).map(([key, val]) => [
+              camelCase(key),
+              val,
+            ])
+          );
+
+          for (const [field, value] of Object.entries(expected.headers)) {
+            expect(camelCaseHeaders[field]).toMatch(value);
+          }
+        }
+      } catch (fastifyError) {
+        console.error(fastify);
+
+        const error: Error & { fastifyError?: unknown } = new Error(
+          fastifyError?.message || "err"
         );
 
-        for (const [field, value] of Object.entries(expected.headers)) {
-          expect(camelCaseHeaders[field]).toMatch(value);
-        }
+        error.fastifyError = fastifyError;
+
+        throw error;
       }
     }
   );

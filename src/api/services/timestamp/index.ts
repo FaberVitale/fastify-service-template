@@ -8,53 +8,58 @@ import {
 } from "./schema";
 import swagger from "fastify-swagger";
 
-export default function now(
+export default async function now(
   fastify: FastifyInstance,
-  option: { prefix?: string; swagger?: boolean },
-  next: () => void
-): void {
+  option: { prefix?: string; swagger?: boolean }
+): Promise<void> {
   const opt = Object.assign({ swagger: true }, option);
 
+  const plugins: PromiseLike<unknown>[] = [];
+
   if (opt.swagger) {
-    fastify.register(swagger, {
-      swagger: {
-        info: {
-          title: "timestamp service",
-          description: "testing the fastify swagger api",
-          version: "0.1.0",
+    plugins.push(
+      fastify.register(swagger, {
+        swagger: {
+          info: {
+            title: "timestamp service",
+            description: "testing the fastify swagger api",
+            version: "0.1.0",
+          },
+          externalDocs: {
+            url: "https://swagger.io",
+            description: "Find more info here",
+          },
+          host: "localhost:5000",
+          schemes: ["http"],
+          consumes: ["application/json"],
+          produces: ["application/json", "text/html", "text/plain"],
+          tags: [{ name: "timestamp", description: "time" }],
         },
-        externalDocs: {
-          url: "https://swagger.io",
-          description: "Find more info here",
-        },
-        host: "localhost:5000",
-        schemes: ["http"],
-        consumes: ["application/json"],
-        produces: ["application/json", "text/html", "text/plain"],
-        tags: [{ name: "timestamp", description: "time" }],
-      },
-      exposeRoute: true,
-    });
+        exposeRoute: true,
+      })
+    );
   }
 
-  fastify.register(acceptsSerializer, {
-    serializers: [
-      {
-        regex: /^text\/html$/,
-        serializer: function nowHtmlSerializer({ now }: SuccessResponse) {
-          return `<p style="padding: 1rem;">time is: <strong>${now}</strong></p>`;
+  plugins.push(
+    fastify.register(acceptsSerializer, {
+      serializers: [
+        {
+          regex: /^text\/html$/i,
+          serializer: function nowHtmlSerializer({ now }: SuccessResponse) {
+            return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body><p style="padding: 1rem;">time is: <strong>${now}</strong></p></body></html>`;
+          },
         },
-      },
-      {
-        regex: /^text\/plain$/,
-        serializer: function ({ now }: SuccessResponse) {
-          return now;
+        {
+          regex: /^text\/plain$/i,
+          serializer: function ({ now }: SuccessResponse) {
+            return now;
+          },
         },
-      },
-    ],
-  });
+      ],
+    })
+  );
 
-  fastify.route<Querystring>({
+  fastify.route<{ Querystring: Querystring }>({
     url: "/",
     method: ["GET", "HEAD"],
     schema: {
@@ -82,5 +87,5 @@ export default function now(
     },
   });
 
-  next();
+  await Promise.all(plugins);
 }
