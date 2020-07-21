@@ -14,7 +14,24 @@ export default async function now(
 ): Promise<void> {
   const opt = Object.assign({ swagger: true }, option);
 
-  const plugins: PromiseLike<unknown>[] = [];
+  const plugins: PromiseLike<unknown>[] = [
+    fastify.register(acceptsSerializer, {
+      serializers: [
+        {
+          regex: /^text\/html$/i,
+          serializer: function nowHtmlSerializer({ now }: SuccessResponse) {
+            return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body><p style="padding: 1rem;">time is: <strong>${now}</strong></p></body></html>`;
+          },
+        },
+        {
+          regex: /^text\/plain$/i,
+          serializer: function ({ now }: SuccessResponse) {
+            return now;
+          },
+        },
+      ],
+    }),
+  ];
 
   if (opt.swagger) {
     plugins.push(
@@ -39,25 +56,6 @@ export default async function now(
       })
     );
   }
-
-  plugins.push(
-    fastify.register(acceptsSerializer, {
-      serializers: [
-        {
-          regex: /^text\/html$/i,
-          serializer: function nowHtmlSerializer({ now }: SuccessResponse) {
-            return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body><p style="padding: 1rem;">time is: <strong>${now}</strong></p></body></html>`;
-          },
-        },
-        {
-          regex: /^text\/plain$/i,
-          serializer: function ({ now }: SuccessResponse) {
-            return now;
-          },
-        },
-      ],
-    })
-  );
 
   fastify.route<{ Querystring: Querystring }>({
     url: "/",

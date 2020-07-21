@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "timestamp api service",
   "private": true,
+  "keywords": [
+    "node",
+    "api",
+    "fastify",
+    "docker"
+  ],
+  "author": "Fabrizio A. Vitale",
+  "license": "MIT",
   "engines": {
     "node": "^14.0.0",
     "npm": "^6.14.4"
@@ -19,18 +27,12 @@
     "predev:debug": "npm run checkversions",
     "dev:debug": "nodemon --exec run-s build:dev start:dev:debug",
     "prestart": "npm run checkversions",
+    "prettify": "prettier --write",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
     "lint:ts": "tsc -p ./tsconfig.test.json",
+    "lint:eslint:fix": "eslint --fix",
     "test": "jest"
   },
-  "keywords": [
-    "node",
-    "api",
-    "fastify",
-    "docker"
-  ],
-  "author": "Fabrizio A. Vitale",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
@@ -43,7 +45,9 @@
     "babel-jest": "^26.1.0",
     "eslint": "^7.5.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
     "nodemon": "^2.0.4",
     "prettier": "2.0.5",
     "rimraf": "^3.0.2",
@@ -64,5 +68,10 @@
     "npm-run-all": "^4.1.5",
     "tiny-invariant": "^1.1.0",
     "utility-types": "^3.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

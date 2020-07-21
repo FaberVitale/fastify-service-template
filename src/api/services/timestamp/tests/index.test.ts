@@ -97,7 +97,7 @@ describe("timestamp service", () => {
         console.error(fastify);
 
         const error: Error & { fastifyError?: unknown } = new Error(
-          fastifyError?.message || "err"
+          fastifyError.message || "err"
         );
 
         error.fastifyError = fastifyError;
