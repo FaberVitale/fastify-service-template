@@ -8,7 +8,7 @@ module.exports = {
     es6: true,
   },
   rules: {
-    "prettier/prettier": 2,
+    "prettier/prettier": 1,
   },
   "overrides": [
     {
