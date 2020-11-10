@@ -1,4 +1,4 @@
-FROM node:14.4.0-alpine as build-stage
+FROM node:14.15.0-alpine as build-stage
 
 ARG WORKDIR=/home/node/timestamp
 ARG CI=true
@@ -12,7 +12,7 @@ COPY . .
 
 RUN npm ci --no-audit && npm run build
 
-FROM node:14.4.0-alpine
+FROM node:14.15.0-alpine
 
 ARG WORKDIR=/home/node/timestamp
 ARG CI=true
