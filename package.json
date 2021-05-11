@@ -64,7 +64,7 @@
     "fastify-cors": "^4.1.0",
     "fastify-etag": "^1.0.0",
     "fastify-swagger": "^3.5.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "npm-run-all": "^4.1.5",
     "tiny-invariant": "^1.1.0",
     "utility-types": "^3.10.0"
