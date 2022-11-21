@@ -58,7 +58,7 @@
     "ajv-errors": "^1.0.1",
     "check-node-version": "^4.0.3",
     "cross-env": "^7.0.3",
-    "fastify": "^3.9.0",
+    "fastify": "^3.29.4",
     "fastify-accepts-serializer": "^3.2.0",
     "fastify-compress": "^3.4.0",
     "fastify-cors": "^4.1.0",
